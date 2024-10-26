@@ -12,6 +12,7 @@ import {
   DrawerTrigger,
 } from "@/components/ui/drawer";
 import NewAppointmentForm from './NewAppointmentForm';
+import PendingAppointments from './PendingAppointments';
 
 interface CalendarOverviewProps {
   days: DaySchedule[];
