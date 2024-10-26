@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { DaySchedule } from '@/lib/types';
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { Clock, Calendar } from "lucide-react";
 
 interface PendingAppointmentsProps {
   days: DaySchedule[];
@@ -23,14 +24,14 @@ const PendingAppointments = ({ days }: PendingAppointmentsProps) => {
   }
 
   return (
-    <Card className="border border-scheduler-lightBlue/20 bg-white shadow-sm">
+    <Card className="border border-scheduler-lightBlue/20 bg-white shadow-md">
       <CardHeader className="border-b border-scheduler-lightBlue/10 bg-blue-50/30">
         <CardTitle className="flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <span className="text-xl font-semibold text-scheduler-text">ממתינים לאישור</span>
+          <div className="flex items-center gap-3">
+            <span className="text-xl font-bold text-scheduler-text">ממתינים לאישור</span>
             <Badge 
               variant="secondary" 
-              className="bg-scheduler-lightBlue/10 text-scheduler-blue border-0"
+              className="bg-scheduler-blue text-white border-0 px-3 py-1 text-sm"
             >
               {pendingAppointments.length}
             </Badge>
@@ -38,15 +39,15 @@ const PendingAppointments = ({ days }: PendingAppointmentsProps) => {
         </CardTitle>
       </CardHeader>
       <CardContent className="p-6">
-        <div className="grid gap-4">
+        <div className="grid gap-6">
           {pendingAppointments.map(appointment => (
             <div 
               key={appointment.id} 
-              className="bg-white rounded-lg p-4 border border-gray-100 hover:border-scheduler-lightBlue/30 hover:shadow-md transition-all duration-200"
+              className="bg-white rounded-lg p-5 border border-gray-100 hover:border-scheduler-lightBlue/30 hover:shadow-lg transition-all duration-200"
             >
               <div className="flex justify-between items-start mb-4">
                 <div>
-                  <h3 className="font-medium text-scheduler-text mb-1">
+                  <h3 className="text-lg font-semibold text-scheduler-text mb-1">
                     {appointment.clientName}
                   </h3>
                   <p className="text-sm text-gray-600">
@@ -54,25 +55,29 @@ const PendingAppointments = ({ days }: PendingAppointmentsProps) => {
                   </p>
                 </div>
                 <Button 
-                  variant="outline" 
+                  variant="default"
                   size="sm"
-                  className="text-xs border-scheduler-lightBlue text-scheduler-blue hover:bg-scheduler-lightBlue/10"
+                  className="bg-scheduler-blue hover:bg-scheduler-blue/90 text-white font-medium px-4"
                 >
                   אשר פגישה
                 </Button>
               </div>
-              <div className="flex flex-wrap items-center gap-4 text-sm text-gray-600">
+              <div className="flex flex-wrap items-center gap-6 text-sm text-gray-600 mt-4">
                 <div className="flex items-center gap-2">
+                  <Clock className="h-4 w-4 text-scheduler-blue/70" />
                   <span>{appointment.time}</span>
-                  <span className="text-gray-400">•</span>
+                  <span className="text-gray-400 mx-2">•</span>
                   <span>{appointment.duration} דקות</span>
                 </div>
-                <div className="text-gray-500">
-                  {appointment.date.toLocaleDateString('he-IL', {
-                    weekday: 'long',
-                    month: 'long',
-                    day: 'numeric',
-                  })}
+                <div className="flex items-center gap-2 text-gray-500">
+                  <Calendar className="h-4 w-4 text-scheduler-blue/70" />
+                  <span>
+                    {appointment.date.toLocaleDateString('he-IL', {
+                      weekday: 'long',
+                      month: 'long',
+                      day: 'numeric',
+                    })}
+                  </span>
                 </div>
               </div>
             </div>
