@@ -17,11 +17,11 @@ const AppointmentCard = ({ appointment }: AppointmentCardProps) => {
       </div>
       <div className="mt-3 flex items-center gap-4">
         <div className="flex items-center text-gray-500">
-          <Clock className="w-4 h-4 mr-1" />
+          <Clock className="w-4 h-4 ml-1" />
           <span className="text-sm">{appointment.time}</span>
         </div>
         <div className="flex items-center text-gray-500">
-          <Calendar className="w-4 h-4 mr-1" />
+          <Calendar className="w-4 h-4 ml-1" />
           <span className="text-sm">{appointment.duration} דקות</span>
         </div>
       </div>
