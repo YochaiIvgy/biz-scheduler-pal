@@ -25,6 +25,9 @@ const AppointmentList = ({ appointments, date }: AppointmentListProps) => {
     day: 'numeric',
   });
 
+  const pendingAppointments = appointments.filter(apt => apt.status === 'pending');
+  const approvedAppointments = appointments.filter(apt => apt.status !== 'pending');
+
   return (
     <div className="bg-scheduler-gray p-2 sm:p-4 rounded-lg min-h-[calc(100vh-8rem)] animate-fade-in">
       <div className="flex items-center justify-between mb-4 sm:mb-6 pr-2">
@@ -47,13 +50,36 @@ const AppointmentList = ({ appointments, date }: AppointmentListProps) => {
           </DrawerContent>
         </Drawer>
       </div>
-      <div className="space-y-3 pr-2">
+
+      <div className="space-y-6 pr-2">
         {appointments.length === 0 ? (
           <p className="text-gray-500 text-center py-4">אין פגישות מתוכננות</p>
         ) : (
-          appointments.map((appointment) => (
-            <AppointmentCard key={appointment.id} appointment={appointment} />
-          ))
+          <>
+            {pendingAppointments.length > 0 && (
+              <div>
+                <h3 className="text-md font-medium text-gray-700 mb-3">מחכים לאישור</h3>
+                <div className="space-y-3">
+                  {pendingAppointments.map((appointment) => (
+                    <AppointmentCard key={appointment.id} appointment={appointment} />
+                  ))}
+                </div>
+              </div>
+            )}
+            
+            <div>
+              <h3 className="text-md font-medium text-gray-700 mb-3">פגישות מאושרות</h3>
+              <div className="space-y-3">
+                {approvedAppointments.length === 0 ? (
+                  <p className="text-gray-500 text-sm">אין פגישות מאושרות</p>
+                ) : (
+                  approvedAppointments.map((appointment) => (
+                    <AppointmentCard key={appointment.id} appointment={appointment} />
+                  ))
+                )}
+              </div>
+            </div>
+          </>
         )}
       </div>
     </div>

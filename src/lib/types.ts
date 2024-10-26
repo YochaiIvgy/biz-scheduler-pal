@@ -4,6 +4,7 @@ export interface Appointment {
   time: string;
   duration: number;
   service: string;
+  status?: 'pending' | 'approved' | 'rejected';
 }
 
 export interface DaySchedule {
