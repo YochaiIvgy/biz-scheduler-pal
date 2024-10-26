@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import AppointmentList from '@/components/Scheduler/AppointmentList';
 import DaysList from '@/components/Scheduler/DaysList';
 import CalendarOverview from '@/components/Scheduler/CalendarOverview';
+import ViewSwitcher from '@/components/Scheduler/ViewSwitcher';
 import { Button } from '@/components/ui/button';
 import { DaySchedule } from '@/lib/types';
 import { Calendar as CalendarIcon, ChevronLeft, ChevronRight } from 'lucide-react';
@@ -83,24 +84,9 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-white p-2 sm:p-4" dir="rtl">
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4 sm:gap-0">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
         <h1 className="text-xl sm:text-2xl font-bold text-scheduler-text">לוח פגישות</h1>
-        <div className="flex gap-2 w-full sm:w-auto">
-          <Button
-            className="flex-1 sm:flex-none"
-            variant={viewMode === 'daily' ? 'default' : 'outline'}
-            onClick={() => setViewMode('daily')}
-          >
-            תצוגה יומית
-          </Button>
-          <Button
-            className="flex-1 sm:flex-none"
-            variant={viewMode === 'overview' ? 'default' : 'outline'}
-            onClick={() => setViewMode('overview')}
-          >
-            תצוגה כללית
-          </Button>
-        </div>
+        <ViewSwitcher view={viewMode} onViewChange={setViewMode} />
       </div>
       
       {viewMode === 'daily' ? (
