@@ -4,12 +4,10 @@ import DaysList from '@/components/Scheduler/DaysList';
 import CalendarOverview from '@/components/Scheduler/CalendarOverview';
 import { Button } from '@/components/ui/button';
 import { DaySchedule } from '@/lib/types';
-import { Calendar } from 'lucide-react';
-import {
-  Drawer,
-  DrawerContent,
-  DrawerTrigger,
-} from "@/components/ui/drawer";
+import { Calendar as CalendarIcon } from 'lucide-react';
+import { Calendar } from "@/components/ui/calendar";
+import { cn } from "@/lib/utils";
+import { Badge } from "@/components/ui/badge";
 
 const sampleDays: DaySchedule[] = [
   {
@@ -52,7 +50,7 @@ const sampleDays: DaySchedule[] = [
 const Index = () => {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [viewMode, setViewMode] = useState<'daily' | 'overview'>('daily');
-  const [isOpen, setIsOpen] = useState(false);
+  const [showCalendar, setShowCalendar] = useState(false);
 
   const selectedDaySchedule = sampleDays.find(
     (day) => day.date.toDateString() === selectedDate.toDateString()
@@ -60,7 +58,15 @@ const Index = () => {
 
   const handleDateSelect = (date: Date) => {
     setSelectedDate(date);
-    setIsOpen(false);
+    setShowCalendar(false);
+  };
+
+  // Get appointments count for a specific date
+  const getAppointmentsCount = (date: Date) => {
+    const daySchedule = sampleDays.find(
+      (day) => day.date.toDateString() === date.toDateString()
+    );
+    return daySchedule?.appointments.length || 0;
   };
 
   return (
@@ -88,31 +94,48 @@ const Index = () => {
       {viewMode === 'daily' ? (
         <>
           {/* Mobile View */}
-          <div className="lg:hidden mb-4">
-            <Drawer open={isOpen} onOpenChange={setIsOpen}>
-              <DrawerTrigger asChild>
-                <Button 
-                  variant="outline" 
-                  className="w-full flex items-center justify-center gap-2"
-                >
-                  <Calendar className="h-4 w-4" />
-                  {selectedDate.toLocaleDateString('he-IL', {
-                    weekday: 'long',
-                    month: 'long',
-                    day: 'numeric',
-                  })}
-                </Button>
-              </DrawerTrigger>
-              <DrawerContent>
-                <div className="max-h-[50vh] overflow-y-auto px-4 pt-4">
-                  <DaysList
-                    days={sampleDays}
-                    selectedDate={selectedDate}
-                    onSelectDate={handleDateSelect}
-                  />
-                </div>
-              </DrawerContent>
-            </Drawer>
+          <div className="lg:hidden space-y-4">
+            <Button 
+              variant="outline" 
+              className="w-full flex items-center justify-center gap-2"
+              onClick={() => setShowCalendar(!showCalendar)}
+            >
+              <CalendarIcon className="h-4 w-4" />
+              {selectedDate.toLocaleDateString('he-IL', {
+                weekday: 'long',
+                month: 'long',
+                day: 'numeric',
+              })}
+            </Button>
+
+            {showCalendar && (
+              <div className="bg-white rounded-lg shadow-lg p-4 animate-in slide-in-from-top-2 duration-300">
+                <Calendar
+                  mode="single"
+                  selected={selectedDate}
+                  onSelect={(date) => date && handleDateSelect(date)}
+                  className="rounded-md border"
+                  components={{
+                    DayContent: ({ date }) => {
+                      const count = getAppointmentsCount(date);
+                      return (
+                        <div className="relative w-full h-full flex items-center justify-center">
+                          <span>{date.getDate()}</span>
+                          {count > 0 && (
+                            <Badge 
+                              variant="secondary" 
+                              className="absolute -top-1 -right-1 h-4 w-4 p-0 flex items-center justify-center text-[10px]"
+                            >
+                              {count}
+                            </Badge>
+                          )}
+                        </div>
+                      );
+                    },
+                  }}
+                />
+              </div>
+            )}
           </div>
 
           {/* Desktop View */}
