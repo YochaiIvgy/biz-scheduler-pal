@@ -21,16 +21,16 @@ const CalendarOverview = ({ days }: CalendarOverviewProps) => {
 
   return (
     <div className="p-6 bg-scheduler-gray rounded-lg animate-fade-in" dir="rtl">
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
         <h2 className="text-2xl font-bold text-scheduler-text">סקירת לוח זמנים</h2>
-        <div className="flex gap-2">
-          <Badge variant="outline" className="bg-blue-50">
-            <Calendar className="w-4 h-4 ml-1" />
-            {days.length} ימים
+        <div className="flex flex-wrap gap-2">
+          <Badge variant="outline" className="bg-blue-50 flex items-center gap-1 px-3 py-1">
+            <Calendar className="w-4 h-4" />
+            <span>{days.length} ימים</span>
           </Badge>
-          <Badge variant="outline" className="bg-green-50">
-            <User className="w-4 h-4 ml-1" />
-            {days.reduce((total, day) => total + day.appointments.length, 0)} פגישות
+          <Badge variant="outline" className="bg-green-50 flex items-center gap-1 px-3 py-1">
+            <User className="w-4 h-4" />
+            <span>{days.reduce((total, day) => total + day.appointments.length, 0)} פגישות</span>
           </Badge>
         </div>
       </div>
@@ -50,7 +50,7 @@ const CalendarOverview = ({ days }: CalendarOverviewProps) => {
                     day: 'numeric',
                   })}
                 </h3>
-                <Badge variant="secondary" className="text-xs">
+                <Badge variant="secondary" className="text-xs whitespace-nowrap">
                   {day.appointments.length} פגישות
                 </Badge>
               </div>
