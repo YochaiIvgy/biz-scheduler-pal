@@ -12,10 +12,10 @@ const SchedulerHeader = ({ view, onViewChange }: SchedulerHeaderProps) => {
   return (
     <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-white p-4 rounded-lg shadow-sm">
       <div className="flex items-center justify-between w-full sm:w-auto gap-4">
-        <h1 className="text-xl sm:text-2xl font-bold text-scheduler-text order-2 sm:order-1">לוח פגישות</h1>
-        <div className="order-1 sm:order-2">
+        <div className="order-2 sm:order-2">
           <BurgerMenu />
         </div>
+        <h1 className="text-xl sm:text-2xl font-bold text-scheduler-text order-1 sm:order-1">לוח פגישות</h1>
       </div>
       
       <Tabs 
