@@ -24,56 +24,56 @@ const PendingAppointments = ({ days }: PendingAppointmentsProps) => {
   }
 
   return (
-    <Card className="border border-scheduler-lightBlue/20 bg-white shadow-md">
-      <CardHeader className="border-b border-scheduler-lightBlue/10 bg-blue-50/30">
+    <Card className="border-0 shadow-sm bg-white/80">
+      <CardHeader className="border-b border-gray-100/50 bg-gray-50/50">
         <CardTitle className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <span className="text-xl font-bold text-scheduler-text">ממתינים לאישור</span>
+            <span className="text-xl font-medium text-gray-700">ממתינים לאישור</span>
             <Badge 
               variant="secondary" 
-              className="bg-scheduler-blue text-white border-0 px-4 py-1.5 text-sm"
+              className="bg-gray-100 text-gray-600 border-0 px-3 py-1 text-sm font-normal"
             >
               {pendingAppointments.length}
             </Badge>
           </div>
         </CardTitle>
       </CardHeader>
-      <CardContent className="p-6">
-        <div className="grid gap-6 divide-y divide-gray-100">
+      <CardContent className="p-8">
+        <div className="grid gap-8 divide-y divide-gray-100/70">
           {pendingAppointments.map((appointment, index) => (
             <div 
               key={appointment.id} 
-              className={`bg-white rounded-lg ${index > 0 ? 'pt-6' : ''} pb-1`}
+              className={`${index > 0 ? 'pt-8' : ''}`}
             >
-              <div className="p-5 border border-gray-100 rounded-lg hover:border-scheduler-lightBlue/30 hover:shadow-lg transition-all duration-200">
-                <div className="flex justify-between items-start mb-4">
+              <div className="rounded-lg transition-all duration-200">
+                <div className="flex justify-between items-start mb-5">
                   <div>
-                    <h3 className="text-lg font-semibold text-scheduler-text mb-1">
+                    <h3 className="text-lg font-medium text-gray-700 mb-1">
                       {appointment.clientName}
                     </h3>
-                    <p className="text-sm text-gray-600">
+                    <p className="text-sm text-gray-500">
                       {appointment.service}
                     </p>
                   </div>
                   <Button 
                     variant="default"
                     size="sm"
-                    className="bg-scheduler-blue hover:bg-scheduler-blue/90 text-white font-medium px-6 py-2.5 h-auto"
+                    className="bg-blue-400/90 hover:bg-blue-500/90 text-white font-normal px-6 py-2 h-9"
                   >
                     אשר פגישה
                   </Button>
                 </div>
-                <div className="flex flex-wrap items-center gap-6 text-sm text-gray-600 mt-4">
+                <div className="flex flex-wrap items-center gap-6 text-sm text-gray-500">
                   <div className="flex items-center gap-2">
-                    <Clock className="h-4 w-4 text-scheduler-blue/70 flex-shrink-0" />
+                    <Clock className="h-4 w-4 text-gray-400 flex-shrink-0" />
                     <span className="inline-flex items-center">
                       {appointment.time}
-                      <span className="text-gray-400 mx-2">•</span>
+                      <span className="text-gray-300 mx-2">•</span>
                       {appointment.duration} דקות
                     </span>
                   </div>
-                  <div className="flex items-center gap-2 text-gray-500">
-                    <Calendar className="h-4 w-4 text-scheduler-blue/70 flex-shrink-0" />
+                  <div className="flex items-center gap-2">
+                    <Calendar className="h-4 w-4 text-gray-400 flex-shrink-0" />
                     <span>
                       {appointment.date.toLocaleDateString('he-IL', {
                         weekday: 'long',
