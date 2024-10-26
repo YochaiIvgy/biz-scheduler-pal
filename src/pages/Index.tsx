@@ -2,12 +2,13 @@ import React, { useState } from 'react';
 import AppointmentList from '@/components/Scheduler/AppointmentList';
 import DaysList from '@/components/Scheduler/DaysList';
 import CalendarOverview from '@/components/Scheduler/CalendarOverview';
+import ViewSwitcher from '@/components/Scheduler/ViewSwitcher';
 import { Button } from '@/components/ui/button';
 import { DaySchedule } from '@/lib/types';
 import { Calendar as CalendarIcon, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Calendar } from "@/components/ui/calendar";
+import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
-import SchedulerHeader from '@/components/Scheduler/SchedulerHeader';
 
 const sampleDays: DaySchedule[] = [
   {
@@ -73,6 +74,7 @@ const Index = () => {
     setSelectedDate(newDate);
   };
 
+  // Get appointments count for a specific date
   const getAppointmentsCount = (date: Date) => {
     const daySchedule = sampleDays.find(
       (day) => day.date.toDateString() === date.toDateString()
@@ -82,7 +84,10 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-white p-2 sm:p-4" dir="rtl">
-      <SchedulerHeader view={viewMode} onViewChange={setViewMode} />
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
+        <h1 className="text-xl sm:text-2xl font-bold text-scheduler-text">לוח פגישות</h1>
+        <ViewSwitcher view={viewMode} onViewChange={setViewMode} />
+      </div>
       
       {viewMode === 'daily' ? (
         <>
