@@ -13,7 +13,7 @@ const DaysList = ({ days, selectedDate, onSelectDate }: DaysListProps) => {
   };
 
   return (
-    <div className="space-y-2 p-2 sm:p-4 bg-white rounded-lg shadow-sm animate-fade-in">
+    <div className="space-y-2 p-2 sm:p-4 bg-white rounded-lg shadow-sm animate-fade-in max-h-full overflow-y-auto">
       {days.map((day) => {
         const formattedDate = day.date.toLocaleDateString('he-IL', {
           weekday: 'short',

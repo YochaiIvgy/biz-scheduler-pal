@@ -4,8 +4,13 @@ import DaysList from '@/components/Scheduler/DaysList';
 import CalendarOverview from '@/components/Scheduler/CalendarOverview';
 import { Button } from '@/components/ui/button';
 import { DaySchedule } from '@/lib/types';
+import {
+  Sheet,
+  SheetContent,
+  SheetTrigger,
+} from "@/components/ui/sheet";
+import { Calendar } from 'lucide-react';
 
-// Sample data - in a real app, this would come from an API
 const sampleDays: DaySchedule[] = [
   {
     date: new Date(),
@@ -47,10 +52,16 @@ const sampleDays: DaySchedule[] = [
 const Index = () => {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [viewMode, setViewMode] = useState<'daily' | 'overview'>('daily');
+  const [isOpen, setIsOpen] = useState(false);
 
   const selectedDaySchedule = sampleDays.find(
     (day) => day.date.toDateString() === selectedDate.toDateString()
   ) || { date: selectedDate, appointments: [] };
+
+  const handleDateSelect = (date: Date) => {
+    setSelectedDate(date);
+    setIsOpen(false);
+  };
 
   return (
     <div className="min-h-screen bg-white p-2 sm:p-4" dir="rtl">
@@ -75,17 +86,46 @@ const Index = () => {
       </div>
       
       {viewMode === 'daily' ? (
-        <div className="grid grid-cols-1 lg:grid-cols-[300px,1fr] gap-4">
-          <DaysList
-            days={sampleDays}
-            selectedDate={selectedDate}
-            onSelectDate={setSelectedDate}
-          />
-          <AppointmentList
-            appointments={selectedDaySchedule.appointments}
-            date={selectedDate}
-          />
-        </div>
+        <>
+          {/* Mobile View */}
+          <div className="lg:hidden mb-4">
+            <Sheet open={isOpen} onOpenChange={setIsOpen}>
+              <SheetTrigger asChild>
+                <Button 
+                  variant="outline" 
+                  className="w-full flex items-center justify-center gap-2"
+                >
+                  <Calendar className="h-4 w-4" />
+                  בחר יום
+                </Button>
+              </SheetTrigger>
+              <SheetContent side="bottom" className="h-[80vh]">
+                <div className="pt-6">
+                  <DaysList
+                    days={sampleDays}
+                    selectedDate={selectedDate}
+                    onSelectDate={handleDateSelect}
+                  />
+                </div>
+              </SheetContent>
+            </Sheet>
+          </div>
+
+          {/* Desktop View */}
+          <div className="grid grid-cols-1 lg:grid-cols-[300px,1fr] gap-4">
+            <div className="hidden lg:block">
+              <DaysList
+                days={sampleDays}
+                selectedDate={selectedDate}
+                onSelectDate={setSelectedDate}
+              />
+            </div>
+            <AppointmentList
+              appointments={selectedDaySchedule.appointments}
+              date={selectedDate}
+            />
+          </div>
+        </>
       ) : (
         <CalendarOverview days={sampleDays} />
       )}
