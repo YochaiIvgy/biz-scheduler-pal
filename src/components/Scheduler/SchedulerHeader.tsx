@@ -1,6 +1,7 @@
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { CalendarDays, LayoutDashboard } from "lucide-react";
 import { cn } from "@/lib/utils";
+import BurgerMenu from "./BurgerMenu";
 
 interface SchedulerHeaderProps {
   view: 'daily' | 'overview';
@@ -10,7 +11,10 @@ interface SchedulerHeaderProps {
 const SchedulerHeader = ({ view, onViewChange }: SchedulerHeaderProps) => {
   return (
     <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-white p-4 rounded-lg shadow-sm">
-      <h1 className="text-xl sm:text-2xl font-bold text-scheduler-text">לוח פגישות</h1>
+      <div className="flex items-center gap-4">
+        <h1 className="text-xl sm:text-2xl font-bold text-scheduler-text">לוח פגישות</h1>
+        <BurgerMenu />
+      </div>
       
       <Tabs 
         value={view} 
