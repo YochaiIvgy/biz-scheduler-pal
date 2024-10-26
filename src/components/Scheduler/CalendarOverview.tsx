@@ -3,6 +3,7 @@ import { DaySchedule } from '@/lib/types';
 import { Card, CardContent } from '@/components/ui/card';
 import { Calendar, Clock, User, Bookmark } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
+import PendingAppointments from './PendingAppointments';
 
 interface CalendarOverviewProps {
   days: DaySchedule[];
@@ -20,8 +21,10 @@ const CalendarOverview = ({ days }: CalendarOverviewProps) => {
   };
 
   return (
-    <div className="p-6 bg-scheduler-gray rounded-lg animate-fade-in" dir="rtl">
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
+    <div className="space-y-6 p-6 bg-scheduler-gray rounded-lg animate-fade-in" dir="rtl">
+      <PendingAppointments days={days} />
+      
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <h2 className="text-2xl font-bold text-scheduler-text">סקירת לוח זמנים</h2>
         <div className="flex flex-wrap gap-2">
           <Badge variant="outline" className="bg-blue-50 flex items-center gap-1 px-3 py-1">
