@@ -4,7 +4,7 @@ import DaysList from '@/components/Scheduler/DaysList';
 import CalendarOverview from '@/components/Scheduler/CalendarOverview';
 import { Button } from '@/components/ui/button';
 import { DaySchedule } from '@/lib/types';
-import { Calendar as CalendarIcon } from 'lucide-react';
+import { Calendar as CalendarIcon, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Calendar } from "@/components/ui/calendar";
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
@@ -61,6 +61,18 @@ const Index = () => {
     setShowCalendar(false);
   };
 
+  const handlePreviousDay = () => {
+    const newDate = new Date(selectedDate);
+    newDate.setDate(newDate.getDate() - 1);
+    setSelectedDate(newDate);
+  };
+
+  const handleNextDay = () => {
+    const newDate = new Date(selectedDate);
+    newDate.setDate(newDate.getDate() + 1);
+    setSelectedDate(newDate);
+  };
+
   // Get appointments count for a specific date
   const getAppointmentsCount = (date: Date) => {
     const daySchedule = sampleDays.find(
@@ -95,18 +107,38 @@ const Index = () => {
         <>
           {/* Mobile View */}
           <div className="lg:hidden space-y-4">
-            <Button 
-              variant="outline" 
-              className="w-full flex items-center justify-center gap-2"
-              onClick={() => setShowCalendar(!showCalendar)}
-            >
-              <CalendarIcon className="h-4 w-4" />
-              {selectedDate.toLocaleDateString('he-IL', {
-                weekday: 'long',
-                month: 'long',
-                day: 'numeric',
-              })}
-            </Button>
+            <div className="flex items-center gap-2">
+              <Button
+                variant="outline"
+                size="icon"
+                onClick={handlePreviousDay}
+                className="flex-none"
+              >
+                <ChevronRight className="h-4 w-4" />
+              </Button>
+              
+              <Button 
+                variant="outline" 
+                className="flex-1 flex items-center justify-center gap-2"
+                onClick={() => setShowCalendar(!showCalendar)}
+              >
+                <CalendarIcon className="h-4 w-4" />
+                {selectedDate.toLocaleDateString('he-IL', {
+                  weekday: 'long',
+                  month: 'long',
+                  day: 'numeric',
+                })}
+              </Button>
+
+              <Button
+                variant="outline"
+                size="icon"
+                onClick={handleNextDay}
+                className="flex-none"
+              >
+                <ChevronLeft className="h-4 w-4" />
+              </Button>
+            </div>
 
             {showCalendar && (
               <div className="bg-white rounded-lg shadow-lg p-4 animate-in slide-in-from-top-2 duration-300">
@@ -147,10 +179,37 @@ const Index = () => {
                 onSelectDate={setSelectedDate}
               />
             </div>
-            <AppointmentList
-              appointments={selectedDaySchedule.appointments}
-              date={selectedDate}
-            />
+            <div className="space-y-4">
+              <div className="hidden lg:flex items-center gap-2 bg-white p-2 rounded-lg shadow-sm">
+                <Button
+                  variant="outline"
+                  size="icon"
+                  onClick={handlePreviousDay}
+                  className="flex-none"
+                >
+                  <ChevronRight className="h-4 w-4" />
+                </Button>
+                <span className="flex-1 text-center font-medium">
+                  {selectedDate.toLocaleDateString('he-IL', {
+                    weekday: 'long',
+                    month: 'long',
+                    day: 'numeric',
+                  })}
+                </span>
+                <Button
+                  variant="outline"
+                  size="icon"
+                  onClick={handleNextDay}
+                  className="flex-none"
+                >
+                  <ChevronLeft className="h-4 w-4" />
+                </Button>
+              </div>
+              <AppointmentList
+                appointments={selectedDaySchedule.appointments}
+                date={selectedDate}
+              />
+            </div>
           </div>
         </>
       ) : (
