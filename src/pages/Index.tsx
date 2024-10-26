@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import AppointmentList from '@/components/Scheduler/AppointmentList';
 import DaysList from '@/components/Scheduler/DaysList';
+import CalendarOverview from '@/components/Scheduler/CalendarOverview';
+import { Button } from '@/components/ui/button';
 import { DaySchedule } from '@/lib/types';
 
 // Sample data - in a real app, this would come from an API
@@ -44,6 +46,7 @@ const sampleDays: DaySchedule[] = [
 
 const Index = () => {
   const [selectedDate, setSelectedDate] = useState(new Date());
+  const [viewMode, setViewMode] = useState<'daily' | 'overview'>('daily');
 
   const selectedDaySchedule = sampleDays.find(
     (day) => day.date.toDateString() === selectedDate.toDateString()
@@ -51,19 +54,39 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-white p-4" dir="rtl">
-      <h1 className="text-2xl font-bold text-scheduler-text mb-6">לוח פגישות</h1>
-      
-      <div className="grid grid-cols-1 md:grid-cols-[300px,1fr] gap-4">
-        <DaysList
-          days={sampleDays}
-          selectedDate={selectedDate}
-          onSelectDate={setSelectedDate}
-        />
-        <AppointmentList
-          appointments={selectedDaySchedule.appointments}
-          date={selectedDate}
-        />
+      <div className="flex justify-between items-center mb-6">
+        <h1 className="text-2xl font-bold text-scheduler-text">לוח פגישות</h1>
+        <div className="space-x-2 space-x-reverse">
+          <Button
+            variant={viewMode === 'daily' ? 'default' : 'outline'}
+            onClick={() => setViewMode('daily')}
+          >
+            תצוגה יומית
+          </Button>
+          <Button
+            variant={viewMode === 'overview' ? 'default' : 'outline'}
+            onClick={() => setViewMode('overview')}
+          >
+            תצוגה כללית
+          </Button>
+        </div>
       </div>
+      
+      {viewMode === 'daily' ? (
+        <div className="grid grid-cols-1 md:grid-cols-[300px,1fr] gap-4">
+          <DaysList
+            days={sampleDays}
+            selectedDate={selectedDate}
+            onSelectDate={setSelectedDate}
+          />
+          <AppointmentList
+            appointments={selectedDaySchedule.appointments}
+            date={selectedDate}
+          />
+        </div>
+      ) : (
+        <CalendarOverview days={sampleDays} />
+      )}
     </div>
   );
 };
