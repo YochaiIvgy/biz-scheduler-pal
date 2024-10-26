@@ -15,7 +15,7 @@ const DaysList = ({ days, selectedDate, onSelectDate }: DaysListProps) => {
   return (
     <div className="space-y-2 p-4 bg-white rounded-lg shadow-sm animate-fade-in">
       {days.map((day) => {
-        const formattedDate = day.date.toLocaleDateString('en-US', {
+        const formattedDate = day.date.toLocaleDateString('he-IL', {
           weekday: 'short',
           month: 'short',
           day: 'numeric',
@@ -25,7 +25,7 @@ const DaysList = ({ days, selectedDate, onSelectDate }: DaysListProps) => {
           <button
             key={day.date.toISOString()}
             onClick={() => onSelectDate(day.date)}
-            className={`w-full text-left p-3 rounded-lg transition-colors ${
+            className={`w-full text-right p-3 rounded-lg transition-colors ${
               isSelected(day.date)
                 ? 'bg-scheduler-blue text-white'
                 : 'hover:bg-scheduler-gray'
@@ -33,7 +33,7 @@ const DaysList = ({ days, selectedDate, onSelectDate }: DaysListProps) => {
           >
             <div className="font-medium">{formattedDate}</div>
             <div className="text-sm mt-1 opacity-80">
-              {day.appointments.length} appointments
+              {day.appointments.length} פגישות
             </div>
           </button>
         );

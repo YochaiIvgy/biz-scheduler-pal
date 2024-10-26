@@ -22,7 +22,7 @@ const AppointmentCard = ({ appointment }: AppointmentCardProps) => {
         </div>
         <div className="flex items-center text-gray-500">
           <Calendar className="w-4 h-4 mr-1" />
-          <span className="text-sm">{appointment.duration}min</span>
+          <span className="text-sm">{appointment.duration} דקות</span>
         </div>
       </div>
     </div>

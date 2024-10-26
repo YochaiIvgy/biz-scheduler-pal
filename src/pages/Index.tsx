@@ -10,17 +10,17 @@ const sampleDays: DaySchedule[] = [
     appointments: [
       {
         id: '1',
-        clientName: 'John Smith',
-        time: '09:00 AM',
+        clientName: 'יוסי כהן',
+        time: '09:00',
         duration: 60,
-        service: 'Consultation',
+        service: 'פגישת ייעוץ',
       },
       {
         id: '2',
-        clientName: 'Sarah Johnson',
-        time: '11:30 AM',
+        clientName: 'שרה לוי',
+        time: '11:30',
         duration: 30,
-        service: 'Follow-up',
+        service: 'פגישת מעקב',
       },
     ],
   },
@@ -29,10 +29,10 @@ const sampleDays: DaySchedule[] = [
     appointments: [
       {
         id: '3',
-        clientName: 'Mike Wilson',
-        time: '10:00 AM',
+        clientName: 'מיכאל ישראלי',
+        time: '10:00',
         duration: 45,
-        service: 'Initial Meeting',
+        service: 'פגישה ראשונה',
       },
     ],
   },
@@ -50,18 +50,18 @@ const Index = () => {
   ) || { date: selectedDate, appointments: [] };
 
   return (
-    <div className="min-h-screen bg-white p-4">
-      <h1 className="text-2xl font-bold text-scheduler-text mb-6">Appointment Schedule</h1>
+    <div className="min-h-screen bg-white p-4" dir="rtl">
+      <h1 className="text-2xl font-bold text-scheduler-text mb-6">לוח פגישות</h1>
       
-      <div className="grid grid-cols-1 md:grid-cols-[1fr,300px] gap-4">
-        <AppointmentList
-          appointments={selectedDaySchedule.appointments}
-          date={selectedDate}
-        />
+      <div className="grid grid-cols-1 md:grid-cols-[300px,1fr] gap-4">
         <DaysList
           days={sampleDays}
           selectedDate={selectedDate}
           onSelectDate={setSelectedDate}
+        />
+        <AppointmentList
+          appointments={selectedDaySchedule.appointments}
+          date={selectedDate}
         />
       </div>
     </div>
