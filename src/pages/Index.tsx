@@ -53,40 +53,44 @@ const Index = () => {
   ) || { date: selectedDate, appointments: [] };
 
   return (
-    <div className="min-h-screen bg-white p-4" dir="rtl">
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold text-scheduler-text">לוח פגישות</h1>
-        <div className="space-x-2 space-x-reverse">
-          <Button
-            variant={viewMode === 'daily' ? 'default' : 'outline'}
-            onClick={() => setViewMode('daily')}
-          >
-            תצוגה יומית
-          </Button>
-          <Button
-            variant={viewMode === 'overview' ? 'default' : 'outline'}
-            onClick={() => setViewMode('overview')}
-          >
-            תצוגה כללית
-          </Button>
+    <div className="min-h-screen bg-gray-50 p-4" dir="rtl">
+      <div className="max-w-7xl mx-auto">
+        <div className="flex justify-between items-center mb-6 bg-white p-4 rounded-lg shadow-sm">
+          <h1 className="text-2xl font-bold text-scheduler-text">לוח פגישות</h1>
+          <div className="space-x-2 space-x-reverse">
+            <Button
+              variant={viewMode === 'daily' ? 'default' : 'outline'}
+              onClick={() => setViewMode('daily')}
+              className={viewMode === 'daily' ? 'bg-scheduler-blue hover:bg-scheduler-blue/90' : ''}
+            >
+              תצוגה יומית
+            </Button>
+            <Button
+              variant={viewMode === 'overview' ? 'default' : 'outline'}
+              onClick={() => setViewMode('overview')}
+              className={viewMode === 'overview' ? 'bg-scheduler-blue hover:bg-scheduler-blue/90' : ''}
+            >
+              תצוגה כללית
+            </Button>
+          </div>
         </div>
+        
+        {viewMode === 'daily' ? (
+          <div className="grid grid-cols-1 md:grid-cols-[300px,1fr] gap-4">
+            <DaysList
+              days={sampleDays}
+              selectedDate={selectedDate}
+              onSelectDate={setSelectedDate}
+            />
+            <AppointmentList
+              appointments={selectedDaySchedule.appointments}
+              date={selectedDate}
+            />
+          </div>
+        ) : (
+          <CalendarOverview days={sampleDays} />
+        )}
       </div>
-      
-      {viewMode === 'daily' ? (
-        <div className="grid grid-cols-1 md:grid-cols-[300px,1fr] gap-4">
-          <DaysList
-            days={sampleDays}
-            selectedDate={selectedDate}
-            onSelectDate={setSelectedDate}
-          />
-          <AppointmentList
-            appointments={selectedDaySchedule.appointments}
-            date={selectedDate}
-          />
-        </div>
-      ) : (
-        <CalendarOverview days={sampleDays} />
-      )}
     </div>
   );
 };

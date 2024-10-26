@@ -28,7 +28,7 @@ const DaysList = ({ days, selectedDate, onSelectDate }: DaysListProps) => {
             className={`w-full text-right p-3 rounded-lg transition-colors ${
               isSelected(day.date)
                 ? 'bg-scheduler-blue text-white'
-                : 'hover:bg-scheduler-gray'
+                : 'hover:bg-scheduler-blue/10'
             }`}
           >
             <div className="font-medium">{formattedDate}</div>
