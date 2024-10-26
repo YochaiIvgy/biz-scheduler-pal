@@ -14,6 +14,7 @@ const sampleDays: DaySchedule[] = [
         time: '09:00',
         duration: 60,
         service: 'פגישת ייעוץ',
+        status: 'approved'
       },
       {
         id: '2',
@@ -21,6 +22,15 @@ const sampleDays: DaySchedule[] = [
         time: '11:30',
         duration: 30,
         service: 'פגישת מעקב',
+        status: 'pending'
+      },
+      {
+        id: '3',
+        clientName: 'דן ישראלי',
+        time: '14:00',
+        duration: 45,
+        service: 'פגישה ראשונה',
+        status: 'pending'
       },
     ],
   },
@@ -28,11 +38,20 @@ const sampleDays: DaySchedule[] = [
     date: new Date(Date.now() + 86400000), // Tomorrow
     appointments: [
       {
-        id: '3',
+        id: '4',
         clientName: 'מיכאל ישראלי',
         time: '10:00',
         duration: 45,
         service: 'פגישה ראשונה',
+        status: 'approved'
+      },
+      {
+        id: '5',
+        clientName: 'רחל כהן',
+        time: '13:00',
+        duration: 30,
+        service: 'פגישת מעקב',
+        status: 'pending'
       },
     ],
   },
