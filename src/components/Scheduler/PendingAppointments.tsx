@@ -58,7 +58,7 @@ const PendingAppointments = ({ days }: PendingAppointmentsProps) => {
                   <Button 
                     variant="outline"
                     size="sm"
-                    className="text-blue-500 border-blue-500 hover:bg-blue-50 font-normal px-6 py-1.5 h-8 rounded-full"
+                    className="text-blue-500 border-blue-500 hover:bg-blue-50 font-medium px-4 py-1 h-7 rounded-md"
                   >
                     אשר פגישה
                   </Button>
