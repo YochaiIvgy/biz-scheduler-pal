@@ -9,10 +9,10 @@ interface CalendarOverviewProps {
 }
 
 const CalendarOverview = ({ days }: CalendarOverviewProps) => {
-  const getStatusColor = (appointments: number) => {
-    if (appointments === 0) return 'bg-gray-100 hover:bg-gray-200';
-    if (appointments < 3) return 'bg-blue-50 hover:bg-blue-100 border-blue-200';
-    return 'bg-blue-100 hover:bg-blue-200 border-blue-300';
+  const getAppointmentColor = (index: number) => {
+    if (index === 0) return 'bg-blue-50 hover:bg-blue-100 border-blue-200';
+    if (index === 1) return 'bg-blue-100 hover:bg-blue-200 border-blue-300';
+    return 'bg-blue-200 hover:bg-blue-300 border-blue-400';
   };
 
   const getTotalDuration = (day: DaySchedule) => {
@@ -39,7 +39,7 @@ const CalendarOverview = ({ days }: CalendarOverviewProps) => {
         {days.map((day) => (
           <Card 
             key={day.date.toISOString()} 
-            className={`overflow-hidden transition-all duration-200 ${getStatusColor(day.appointments.length)}`}
+            className="overflow-hidden transition-all duration-200 bg-white hover:bg-gray-50"
           >
             <CardContent className="p-4">
               <div className="flex justify-between items-center mb-3">
@@ -66,13 +66,13 @@ const CalendarOverview = ({ days }: CalendarOverviewProps) => {
                 {day.appointments.length === 0 ? (
                   <p className="text-gray-500 text-sm text-center py-4">אין פגישות מתוכננות</p>
                 ) : (
-                  day.appointments.map((appointment) => (
+                  day.appointments.map((appointment, index) => (
                     <div
                       key={appointment.id}
-                      className="p-3 bg-white rounded-md border border-gray-100 hover:border-blue-200 transition-colors"
+                      className={`p-3 rounded-md border transition-colors ${getAppointmentColor(index)}`}
                     >
                       <div className="flex items-center gap-2">
-                        <User className="w-4 h-4 text-gray-400" />
+                        <User className="w-4 h-4 text-gray-600" />
                         <div className="font-medium text-scheduler-text">{appointment.clientName}</div>
                       </div>
                       <div className="mt-2 text-sm text-gray-600 flex items-center justify-between">
