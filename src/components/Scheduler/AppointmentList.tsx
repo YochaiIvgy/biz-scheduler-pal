@@ -3,6 +3,14 @@ import { Appointment } from '@/lib/types';
 import AppointmentCard from './AppointmentCard';
 import { Plus } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import {
+  Drawer,
+  DrawerContent,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from "@/components/ui/drawer";
+import NewAppointmentForm from './NewAppointmentForm';
 
 interface AppointmentListProps {
   appointments: Appointment[];
@@ -10,6 +18,7 @@ interface AppointmentListProps {
 }
 
 const AppointmentList = ({ appointments, date }: AppointmentListProps) => {
+  const [open, setOpen] = React.useState(false);
   const formattedDate = date.toLocaleDateString('he-IL', {
     weekday: 'long',
     month: 'long',
@@ -20,14 +29,23 @@ const AppointmentList = ({ appointments, date }: AppointmentListProps) => {
     <div className="bg-scheduler-gray p-2 sm:p-4 rounded-lg min-h-[calc(100vh-8rem)] animate-fade-in">
       <div className="flex items-center justify-between mb-4 sm:mb-6 pr-2">
         <h2 className="text-lg sm:text-xl font-semibold text-scheduler-text">{formattedDate}</h2>
-        <Button 
-          variant="outline"
-          className="flex items-center gap-2 bg-white hover:bg-scheduler-blue hover:text-white transition-all duration-200 text-sm font-medium px-3 py-2 h-9"
-          onClick={() => {}}
-        >
-          <Plus className="h-4 w-4" />
-          <span>הוסף פגישה</span>
-        </Button>
+        <Drawer open={open} onOpenChange={setOpen}>
+          <DrawerTrigger asChild>
+            <Button 
+              variant="outline"
+              className="flex items-center gap-2 bg-white hover:bg-scheduler-blue hover:text-white transition-all duration-200 text-sm font-medium px-3 py-2 h-9"
+            >
+              <Plus className="h-4 w-4" />
+              <span>הוסף פגישה</span>
+            </Button>
+          </DrawerTrigger>
+          <DrawerContent>
+            <DrawerHeader>
+              <DrawerTitle className="text-right">פגישה חדשה ל{formattedDate}</DrawerTitle>
+            </DrawerHeader>
+            <NewAppointmentForm date={date} onClose={() => setOpen(false)} />
+          </DrawerContent>
+        </Drawer>
       </div>
       <div className="space-y-3 pr-2">
         {appointments.length === 0 ? (
