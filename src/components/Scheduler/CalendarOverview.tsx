@@ -1,15 +1,25 @@
 import React from 'react';
 import { DaySchedule } from '@/lib/types';
-import { Card, CardContent } from '@/components/ui/card';
-import { Calendar, Clock, User, Bookmark } from 'lucide-react';
-import { Badge } from '@/components/ui/badge';
-import PendingAppointments from './PendingAppointments';
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Clock, Calendar, Plus, User, Bookmark } from "lucide-react";
+import {
+  Drawer,
+  DrawerContent,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from "@/components/ui/drawer";
+import NewAppointmentForm from './NewAppointmentForm';
 
 interface CalendarOverviewProps {
   days: DaySchedule[];
 }
 
 const CalendarOverview = ({ days }: CalendarOverviewProps) => {
+  const [open, setOpen] = React.useState(false);
+
   const getAppointmentColor = (index: number) => {
     if (index === 0) return 'bg-blue-50 hover:bg-blue-100 border-blue-200';
     if (index === 1) return 'bg-blue-100 hover:bg-blue-200 border-blue-300';
@@ -26,7 +36,7 @@ const CalendarOverview = ({ days }: CalendarOverviewProps) => {
       
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <h2 className="text-2xl font-bold text-scheduler-text">סקירת לוח זמנים</h2>
-        <div className="flex flex-wrap gap-2">
+        <div className="flex flex-wrap items-center gap-2">
           <Badge variant="outline" className="bg-blue-50 flex items-center gap-1 px-3 py-1">
             <Calendar className="w-4 h-4" />
             <span>{days.length} ימים</span>
@@ -35,6 +45,24 @@ const CalendarOverview = ({ days }: CalendarOverviewProps) => {
             <User className="w-4 h-4" />
             <span>{days.reduce((total, day) => total + day.appointments.length, 0)} פגישות</span>
           </Badge>
+          <Drawer open={open} onOpenChange={setOpen}>
+            <DrawerTrigger asChild>
+              <Button 
+                variant="outline"
+                size="sm"
+                className="flex items-center gap-2 text-blue-500 border-blue-500 hover:bg-blue-50 font-normal px-6 py-1.5 h-8 rounded-full"
+              >
+                <Plus className="h-4 w-4" />
+                <span>הוסף פגישה</span>
+              </Button>
+            </DrawerTrigger>
+            <DrawerContent>
+              <DrawerHeader>
+                <DrawerTitle className="text-right">פגישה חדשה</DrawerTitle>
+              </DrawerHeader>
+              <NewAppointmentForm date={new Date()} onClose={() => setOpen(false)} />
+            </DrawerContent>
+          </Drawer>
         </div>
       </div>
       
