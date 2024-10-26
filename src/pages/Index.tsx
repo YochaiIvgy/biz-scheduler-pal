@@ -4,12 +4,12 @@ import DaysList from '@/components/Scheduler/DaysList';
 import CalendarOverview from '@/components/Scheduler/CalendarOverview';
 import { Button } from '@/components/ui/button';
 import { DaySchedule } from '@/lib/types';
-import {
-  Sheet,
-  SheetContent,
-  SheetTrigger,
-} from "@/components/ui/sheet";
 import { Calendar } from 'lucide-react';
+import {
+  Drawer,
+  DrawerContent,
+  DrawerTrigger,
+} from "@/components/ui/drawer";
 
 const sampleDays: DaySchedule[] = [
   {
@@ -89,26 +89,30 @@ const Index = () => {
         <>
           {/* Mobile View */}
           <div className="lg:hidden mb-4">
-            <Sheet open={isOpen} onOpenChange={setIsOpen}>
-              <SheetTrigger asChild>
+            <Drawer open={isOpen} onOpenChange={setIsOpen}>
+              <DrawerTrigger asChild>
                 <Button 
                   variant="outline" 
                   className="w-full flex items-center justify-center gap-2"
                 >
                   <Calendar className="h-4 w-4" />
-                  בחר יום
+                  {selectedDate.toLocaleDateString('he-IL', {
+                    weekday: 'long',
+                    month: 'long',
+                    day: 'numeric',
+                  })}
                 </Button>
-              </SheetTrigger>
-              <SheetContent side="bottom" className="h-[80vh]">
-                <div className="pt-6">
+              </DrawerTrigger>
+              <DrawerContent>
+                <div className="max-h-[50vh] overflow-y-auto px-4 pt-4">
                   <DaysList
                     days={sampleDays}
                     selectedDate={selectedDate}
                     onSelectDate={handleDateSelect}
                   />
                 </div>
-              </SheetContent>
-            </Sheet>
+              </DrawerContent>
+            </Drawer>
           </div>
 
           {/* Desktop View */}
