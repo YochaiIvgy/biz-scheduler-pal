@@ -15,46 +15,15 @@ const SchedulerHeader = ({ view, onViewChange }: SchedulerHeaderProps) => {
         <div className="order-2 sm:order-2">
           <BurgerMenu />
         </div>
-        <div className="flex items-center gap-3 order-1 sm:order-1">
-          <h1 className="text-xl sm:text-2xl font-bold text-scheduler-text">לוח פגישות</h1>
-          <div className="block sm:hidden">
-            <Tabs 
-              value={view} 
-              onValueChange={(value) => onViewChange(value as 'daily' | 'overview')}
-              className="h-8"
-            >
-              <TabsList className="h-8 p-1">
-                <TabsTrigger 
-                  value="daily"
-                  className={cn(
-                    "h-6 w-6 p-0",
-                    "data-[state=active]:bg-scheduler-blue data-[state=active]:text-white"
-                  )}
-                >
-                  <CalendarDays className="h-4 w-4" />
-                </TabsTrigger>
-                <TabsTrigger 
-                  value="overview"
-                  className={cn(
-                    "h-6 w-6 p-0",
-                    "data-[state=active]:bg-scheduler-blue data-[state=active]:text-white"
-                  )}
-                >
-                  <LayoutDashboard className="h-4 w-4" />
-                </TabsTrigger>
-              </TabsList>
-            </Tabs>
-          </div>
-        </div>
+        <h1 className="text-xl sm:text-2xl font-bold text-scheduler-text order-1 sm:order-1">לוח פגישות</h1>
       </div>
       
-      {/* Desktop view toggle */}
       <Tabs 
         value={view} 
         onValueChange={(value) => onViewChange(value as 'daily' | 'overview')}
-        className="hidden sm:block"
+        className="w-full sm:w-auto"
       >
-        <TabsList className="grid grid-cols-2 h-11">
+        <TabsList className="w-full sm:w-auto grid grid-cols-2 h-11">
           <TabsTrigger 
             value="daily"
             className={cn(
@@ -63,7 +32,7 @@ const SchedulerHeader = ({ view, onViewChange }: SchedulerHeaderProps) => {
             )}
           >
             <CalendarDays className="h-5 w-5" />
-            <span>תצוגה יומית</span>
+            <span className="hidden sm:inline">תצוגה יומית</span>
           </TabsTrigger>
           <TabsTrigger 
             value="overview"
@@ -73,7 +42,7 @@ const SchedulerHeader = ({ view, onViewChange }: SchedulerHeaderProps) => {
             )}
           >
             <LayoutDashboard className="h-5 w-5" />
-            <span>תצוגה כללית</span>
+            <span className="hidden sm:inline">תצוגה כללית</span>
           </TabsTrigger>
         </TabsList>
       </Tabs>
