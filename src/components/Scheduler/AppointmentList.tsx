@@ -1,7 +1,6 @@
 import React from 'react';
 import { Appointment } from '@/lib/types';
 import AppointmentCard from './AppointmentCard';
-import { useToast } from '@/components/ui/use-toast';
 
 interface AppointmentListProps {
   appointments: Appointment[];
@@ -9,20 +8,11 @@ interface AppointmentListProps {
 }
 
 const AppointmentList = ({ appointments, date }: AppointmentListProps) => {
-  const { toast } = useToast();
   const formattedDate = date.toLocaleDateString('he-IL', {
     weekday: 'long',
     month: 'long',
     day: 'numeric',
   });
-
-  const handleEdit = (updatedAppointment: Appointment) => {
-    // In a real app, this would update the backend
-    toast({
-      title: "הפגישה עודכנה",
-      description: `פגישה עם ${updatedAppointment.clientName} עודכנה בהצלחה`,
-    });
-  };
 
   return (
     <div className="bg-scheduler-gray p-2 sm:p-4 rounded-lg min-h-[calc(100vh-8rem)] animate-fade-in">
@@ -32,11 +22,7 @@ const AppointmentList = ({ appointments, date }: AppointmentListProps) => {
           <p className="text-gray-500 text-center py-4">אין פגישות מתוכננות</p>
         ) : (
           appointments.map((appointment) => (
-            <AppointmentCard 
-              key={appointment.id} 
-              appointment={appointment}
-              onEdit={handleEdit}
-            />
+            <AppointmentCard key={appointment.id} appointment={appointment} />
           ))
         )}
       </div>
