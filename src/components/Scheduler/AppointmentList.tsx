@@ -15,8 +15,8 @@ const AppointmentList = ({ appointments, date }: AppointmentListProps) => {
   });
 
   return (
-    <div className="bg-scheduler-gray p-4 rounded-lg min-h-[calc(100vh-2rem)] animate-fade-in">
-      <h2 className="text-xl font-semibold mb-6 text-scheduler-text pr-2">{formattedDate}</h2>
+    <div className="bg-scheduler-gray p-2 sm:p-4 rounded-lg min-h-[calc(100vh-8rem)] animate-fade-in">
+      <h2 className="text-lg sm:text-xl font-semibold mb-4 sm:mb-6 text-scheduler-text pr-2">{formattedDate}</h2>
       <div className="space-y-3 pr-2">
         {appointments.length === 0 ? (
           <p className="text-gray-500 text-center py-4">אין פגישות מתוכננות</p>

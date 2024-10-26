@@ -8,21 +8,21 @@ interface AppointmentCardProps {
 
 const AppointmentCard = ({ appointment }: AppointmentCardProps) => {
   return (
-    <div className="bg-white rounded-lg shadow-sm p-4 mb-3 border border-gray-100 hover:shadow-md transition-shadow animate-fade-in">
+    <div className="bg-white rounded-lg shadow-sm p-3 sm:p-4 mb-3 border border-gray-100 hover:shadow-md transition-shadow animate-fade-in">
       <div className="flex justify-between items-start">
         <div>
-          <h3 className="font-semibold text-scheduler-text">{appointment.clientName}</h3>
-          <p className="text-sm text-gray-600">{appointment.service}</p>
+          <h3 className="font-semibold text-scheduler-text text-sm sm:text-base">{appointment.clientName}</h3>
+          <p className="text-xs sm:text-sm text-gray-600">{appointment.service}</p>
         </div>
       </div>
-      <div className="mt-3 flex items-center gap-4">
+      <div className="mt-2 sm:mt-3 flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
         <div className="flex items-center text-gray-500">
-          <Clock className="w-4 h-4 ml-1" />
-          <span className="text-sm">{appointment.time}</span>
+          <Clock className="w-3 h-3 sm:w-4 sm:h-4 ml-1" />
+          <span className="text-xs sm:text-sm">{appointment.time}</span>
         </div>
         <div className="flex items-center text-gray-500">
-          <Calendar className="w-4 h-4 ml-1" />
-          <span className="text-sm">{appointment.duration} דקות</span>
+          <Calendar className="w-3 h-3 sm:w-4 sm:h-4 ml-1" />
+          <span className="text-xs sm:text-sm">{appointment.duration} דקות</span>
         </div>
       </div>
     </div>

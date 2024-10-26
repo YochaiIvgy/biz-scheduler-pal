@@ -53,17 +53,19 @@ const Index = () => {
   ) || { date: selectedDate, appointments: [] };
 
   return (
-    <div className="min-h-screen bg-white p-4" dir="rtl">
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold text-scheduler-text">לוח פגישות</h1>
-        <div className="space-x-2 space-x-reverse">
+    <div className="min-h-screen bg-white p-2 sm:p-4" dir="rtl">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4 sm:gap-0">
+        <h1 className="text-xl sm:text-2xl font-bold text-scheduler-text">לוח פגישות</h1>
+        <div className="flex gap-2 w-full sm:w-auto">
           <Button
+            className="flex-1 sm:flex-none"
             variant={viewMode === 'daily' ? 'default' : 'outline'}
             onClick={() => setViewMode('daily')}
           >
             תצוגה יומית
           </Button>
           <Button
+            className="flex-1 sm:flex-none"
             variant={viewMode === 'overview' ? 'default' : 'outline'}
             onClick={() => setViewMode('overview')}
           >
@@ -73,7 +75,7 @@ const Index = () => {
       </div>
       
       {viewMode === 'daily' ? (
-        <div className="grid grid-cols-1 md:grid-cols-[300px,1fr] gap-4">
+        <div className="grid grid-cols-1 lg:grid-cols-[300px,1fr] gap-4">
           <DaysList
             days={sampleDays}
             selectedDate={selectedDate}

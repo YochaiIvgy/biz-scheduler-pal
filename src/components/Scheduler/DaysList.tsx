@@ -13,7 +13,7 @@ const DaysList = ({ days, selectedDate, onSelectDate }: DaysListProps) => {
   };
 
   return (
-    <div className="space-y-2 p-4 bg-white rounded-lg shadow-sm animate-fade-in">
+    <div className="space-y-2 p-2 sm:p-4 bg-white rounded-lg shadow-sm animate-fade-in">
       {days.map((day) => {
         const formattedDate = day.date.toLocaleDateString('he-IL', {
           weekday: 'short',
@@ -31,8 +31,8 @@ const DaysList = ({ days, selectedDate, onSelectDate }: DaysListProps) => {
                 : 'hover:bg-scheduler-gray'
             }`}
           >
-            <div className="font-medium">{formattedDate}</div>
-            <div className="text-sm mt-1 opacity-80">
+            <div className="font-medium text-sm sm:text-base">{formattedDate}</div>
+            <div className="text-xs sm:text-sm mt-1 opacity-80">
               {day.appointments.length} פגישות
             </div>
           </button>
