@@ -10,9 +10,9 @@ interface CalendarOverviewProps {
 
 const CalendarOverview = ({ days }: CalendarOverviewProps) => {
   const getAppointmentColor = (index: number) => {
-    if (index === 0) return 'bg-scheduler-blue/10 hover:bg-scheduler-blue/20 border-scheduler-blue/30';
-    if (index === 1) return 'bg-scheduler-blue/20 hover:bg-scheduler-blue/30 border-scheduler-blue/40';
-    return 'bg-scheduler-blue/30 hover:bg-scheduler-blue/40 border-scheduler-blue/50';
+    if (index === 0) return 'bg-blue-50 hover:bg-blue-100 border-blue-200';
+    if (index === 1) return 'bg-blue-100 hover:bg-blue-200 border-blue-300';
+    return 'bg-blue-200 hover:bg-blue-300 border-blue-400';
   };
 
   const getTotalDuration = (day: DaySchedule) => {
@@ -20,15 +20,15 @@ const CalendarOverview = ({ days }: CalendarOverviewProps) => {
   };
 
   return (
-    <div className="p-6 bg-white rounded-lg shadow-sm animate-fade-in">
+    <div className="p-6 bg-scheduler-gray rounded-lg animate-fade-in" dir="rtl">
       <div className="flex items-center justify-between mb-6">
         <h2 className="text-2xl font-bold text-scheduler-text">סקירת לוח זמנים</h2>
         <div className="flex gap-2">
-          <Badge variant="outline" className="bg-scheduler-blue/10 text-scheduler-blue border-scheduler-blue/30">
+          <Badge variant="outline" className="bg-blue-50">
             <Calendar className="w-4 h-4 ml-1" />
             {days.length} ימים
           </Badge>
-          <Badge variant="outline" className="bg-scheduler-blue/10 text-scheduler-blue border-scheduler-blue/30">
+          <Badge variant="outline" className="bg-green-50">
             <User className="w-4 h-4 ml-1" />
             {days.reduce((total, day) => total + day.appointments.length, 0)} פגישות
           </Badge>
@@ -39,7 +39,7 @@ const CalendarOverview = ({ days }: CalendarOverviewProps) => {
         {days.map((day) => (
           <Card 
             key={day.date.toISOString()} 
-            className="overflow-hidden transition-all duration-200 hover:shadow-md"
+            className="overflow-hidden transition-all duration-200 bg-white hover:bg-gray-50"
           >
             <CardContent className="p-4">
               <div className="flex justify-between items-center mb-3">
@@ -50,7 +50,7 @@ const CalendarOverview = ({ days }: CalendarOverviewProps) => {
                     day: 'numeric',
                   })}
                 </h3>
-                <Badge variant="outline" className="text-xs bg-scheduler-blue/10 text-scheduler-blue border-scheduler-blue/30">
+                <Badge variant="secondary" className="text-xs">
                   {day.appointments.length} פגישות
                 </Badge>
               </div>
@@ -72,20 +72,20 @@ const CalendarOverview = ({ days }: CalendarOverviewProps) => {
                       className={`p-3 rounded-md border transition-colors ${getAppointmentColor(index)}`}
                     >
                       <div className="flex items-center gap-2">
-                        <User className="w-4 h-4 text-scheduler-blue" />
+                        <User className="w-4 h-4 text-gray-600" />
                         <div className="font-medium text-scheduler-text">{appointment.clientName}</div>
                       </div>
                       <div className="mt-2 text-sm text-gray-600 flex items-center justify-between">
                         <div className="flex items-center gap-2">
-                          <Clock className="w-4 h-4 text-scheduler-blue" />
+                          <Clock className="w-4 h-4" />
                           <span>{appointment.time}</span>
                         </div>
                         <div className="flex items-center gap-2">
-                          <Bookmark className="w-4 h-4 text-scheduler-blue" />
+                          <Bookmark className="w-4 h-4" />
                           <span>{appointment.service}</span>
                         </div>
                       </div>
-                      <Badge className="mt-2 bg-scheduler-blue/10 text-scheduler-blue border-scheduler-blue/30" variant="outline">
+                      <Badge className="mt-2" variant="outline">
                         {appointment.duration} דקות
                       </Badge>
                     </div>
