@@ -19,14 +19,28 @@ interface AppointmentListProps {
 
 const AppointmentList = ({ appointments, date }: AppointmentListProps) => {
   const [open, setOpen] = React.useState(false);
+  const [localAppointments, setLocalAppointments] = React.useState(appointments);
+
+  React.useEffect(() => {
+    setLocalAppointments(appointments);
+  }, [appointments]);
+
   const formattedDate = date.toLocaleDateString('he-IL', {
     weekday: 'long',
     month: 'long',
     day: 'numeric',
   });
 
-  const pendingAppointments = appointments.filter(apt => apt.status === 'pending');
-  const approvedAppointments = appointments.filter(apt => apt.status !== 'pending');
+  const handleEdit = (updatedAppointment: Appointment) => {
+    setLocalAppointments(prev => 
+      prev.map(apt => 
+        apt.id === updatedAppointment.id ? updatedAppointment : apt
+      )
+    );
+  };
+
+  const pendingAppointments = localAppointments.filter(apt => apt.status === 'pending');
+  const approvedAppointments = localAppointments.filter(apt => apt.status !== 'pending');
 
   return (
     <div className="bg-scheduler-gray p-2 sm:p-4 rounded-lg min-h-[calc(100vh-8rem)] animate-fade-in">
@@ -52,7 +66,7 @@ const AppointmentList = ({ appointments, date }: AppointmentListProps) => {
       </div>
 
       <div className="space-y-6 pr-2">
-        {appointments.length === 0 ? (
+        {localAppointments.length === 0 ? (
           <p className="text-gray-500 text-center py-4">אין פגישות מתוכננות</p>
         ) : (
           <>
@@ -61,7 +75,11 @@ const AppointmentList = ({ appointments, date }: AppointmentListProps) => {
                 <h3 className="text-md font-medium text-gray-700 mb-3">מחכים לאישור</h3>
                 <div className="space-y-3">
                   {pendingAppointments.map((appointment) => (
-                    <AppointmentCard key={appointment.id} appointment={appointment} />
+                    <AppointmentCard 
+                      key={appointment.id} 
+                      appointment={appointment}
+                      onEdit={handleEdit}
+                    />
                   ))}
                 </div>
               </div>
@@ -74,7 +92,11 @@ const AppointmentList = ({ appointments, date }: AppointmentListProps) => {
                   <p className="text-gray-500 text-sm">אין פגישות מאושרות</p>
                 ) : (
                   approvedAppointments.map((appointment) => (
-                    <AppointmentCard key={appointment.id} appointment={appointment} />
+                    <AppointmentCard 
+                      key={appointment.id} 
+                      appointment={appointment}
+                      onEdit={handleEdit}
+                    />
                   ))
                 )}
               </div>
