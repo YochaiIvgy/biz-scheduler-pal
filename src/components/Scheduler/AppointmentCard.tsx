@@ -32,7 +32,13 @@ const AppointmentCard = ({ appointment, onEdit }: AppointmentCardProps) => {
         <div className="flex justify-between items-start">
           <div>
             <h3 className="font-semibold text-scheduler-text text-sm sm:text-base">{appointment.clientName}</h3>
-            <p className="text-xs sm:text-sm text-gray-600">{appointment.service}</p>
+            <div className="flex flex-wrap gap-2 mt-1">
+              {appointment.services.map((service, index) => (
+                <Badge key={index} variant="secondary" className="text-xs">
+                  {service}
+                </Badge>
+              ))}
+            </div>
           </div>
           <div className="flex items-center gap-2">
             {appointment.status === 'pending' && (

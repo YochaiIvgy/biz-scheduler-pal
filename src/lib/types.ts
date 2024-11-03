@@ -3,7 +3,7 @@ export interface Appointment {
   clientName: string;
   time: string;
   duration: number;
-  service: string;
+  services: string[];
   status?: 'pending' | 'approved' | 'rejected';
 }
 
