@@ -1,6 +1,6 @@
 import React from 'react';
 import { DaySchedule } from '@/lib/types';
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Clock, Calendar, Plus, User, Bookmark } from "lucide-react";
@@ -114,7 +114,7 @@ const CalendarOverview = ({ days }: CalendarOverviewProps) => {
                         </div>
                         <div className="flex items-center gap-2">
                           <Bookmark className="w-4 h-4" />
-                          <span>{appointment.service}</span>
+                          <span>{appointment.services[0]}</span>
                         </div>
                       </div>
                       <Badge className="mt-2" variant="outline">

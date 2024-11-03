@@ -52,7 +52,7 @@ const PendingAppointments = ({ days }: PendingAppointmentsProps) => {
                       {appointment.clientName}
                     </h3>
                     <p className="text-sm text-gray-500">
-                      {appointment.service}
+                      {appointment.services[0]}
                     </p>
                   </div>
                   <Button 

@@ -13,7 +13,7 @@ const sampleDays: DaySchedule[] = [
         clientName: 'יוסי כהן',
         time: '09:00',
         duration: 60,
-        service: 'פגישת ייעוץ',
+        services: ['פגישת ייעוץ'],
         status: 'approved'
       },
       {
@@ -21,7 +21,7 @@ const sampleDays: DaySchedule[] = [
         clientName: 'שרה לוי',
         time: '11:30',
         duration: 30,
-        service: 'פגישת מעקב',
+        services: ['פגישת מעקב'],
         status: 'pending'
       },
       {
@@ -29,7 +29,7 @@ const sampleDays: DaySchedule[] = [
         clientName: 'דן ישראלי',
         time: '14:00',
         duration: 45,
-        service: 'פגישה ראשונה',
+        services: ['פגישה ראשונה'],
         status: 'pending'
       },
     ],
@@ -42,7 +42,7 @@ const sampleDays: DaySchedule[] = [
         clientName: 'מיכאל ישראלי',
         time: '10:00',
         duration: 45,
-        service: 'פגישה ראשונה',
+        services: ['פגישה ראשונה'],
         status: 'approved'
       },
       {
@@ -50,7 +50,7 @@ const sampleDays: DaySchedule[] = [
         clientName: 'רחל כהן',
         time: '13:00',
         duration: 30,
-        service: 'פגישת מעקב',
+        services: ['פגישת מעקב'],
         status: 'pending'
       },
     ],
