@@ -1,5 +1,5 @@
 import React from 'react';
-import { Clock, Calendar, AlertCircle, Edit2, User } from 'lucide-react';
+import { Clock, Calendar, AlertCircle, Edit2, User, X } from 'lucide-react';
 import { Appointment } from '@/lib/types';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -8,7 +8,10 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
+  DialogDescription,
+  DialogFooter,
 } from "@/components/ui/dialog";
+import { useToast } from "@/components/ui/use-toast";
 import EditAppointmentForm from './EditAppointmentForm';
 
 interface AppointmentCardProps {
@@ -18,12 +21,29 @@ interface AppointmentCardProps {
 
 const AppointmentCard = ({ appointment, onEdit }: AppointmentCardProps) => {
   const [showEditDialog, setShowEditDialog] = React.useState(false);
+  const [showCancelDialog, setShowCancelDialog] = React.useState(false);
+  const { toast } = useToast();
 
   const handleEdit = (updatedAppointment: Appointment) => {
     if (onEdit) {
       onEdit(updatedAppointment);
     }
     setShowEditDialog(false);
+  };
+
+  const handleCancel = () => {
+    if (onEdit) {
+      const canceledAppointment = {
+        ...appointment,
+        status: 'rejected' as const
+      };
+      onEdit(canceledAppointment);
+      toast({
+        title: "פגישה בוטלה",
+        description: `הפגישה עם ${appointment.clientName} בוטלה בהצלחה`,
+      });
+    }
+    setShowCancelDialog(false);
   };
 
   const getStatusColor = (status: string) => {
@@ -78,15 +98,25 @@ const AppointmentCard = ({ appointment, onEdit }: AppointmentCardProps) => {
               {appointment.status === 'approved' && 'מאושר'}
               {appointment.status === 'rejected' && 'בוטל'}
             </Badge>
-            {onEdit && (
-              <Button
-                variant="ghost"
-                size="icon"
-                className="h-8 w-8 opacity-0 group-hover:opacity-100 transition-opacity"
-                onClick={() => setShowEditDialog(true)}
-              >
-                <Edit2 className="h-4 w-4" />
-              </Button>
+            {onEdit && appointment.status !== 'rejected' && (
+              <>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="h-8 w-8 opacity-0 group-hover:opacity-100 transition-opacity text-blue-500"
+                  onClick={() => setShowEditDialog(true)}
+                >
+                  <Edit2 className="h-4 w-4" />
+                </Button>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="h-8 w-8 opacity-0 group-hover:opacity-100 transition-opacity text-red-500"
+                  onClick={() => setShowCancelDialog(true)}
+                >
+                  <X className="h-4 w-4" />
+                </Button>
+              </>
             )}
           </div>
         </div>
@@ -112,6 +142,25 @@ const AppointmentCard = ({ appointment, onEdit }: AppointmentCardProps) => {
             onClose={() => setShowEditDialog(false)}
             onSave={handleEdit}
           />
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={showCancelDialog} onOpenChange={setShowCancelDialog}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>ביטול פגישה</DialogTitle>
+            <DialogDescription>
+              האם אתה בטוח שברצונך לבטל את הפגישה עם {appointment.clientName}?
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter className="flex gap-2 justify-end">
+            <Button variant="outline" onClick={() => setShowCancelDialog(false)}>
+              חזור
+            </Button>
+            <Button variant="destructive" onClick={handleCancel}>
+              בטל פגישה
+            </Button>
+          </DialogFooter>
         </DialogContent>
       </Dialog>
     </>
