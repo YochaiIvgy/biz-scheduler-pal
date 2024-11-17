@@ -29,21 +29,21 @@ const CalendarOverview = ({ days }: CalendarOverviewProps) => {
   ) || { date: today, appointments: [] };
 
   return (
-    <div className="space-y-6 p-6 bg-scheduler-gray rounded-lg animate-fade-in" dir="rtl">
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-6">
+    <div className="space-y-4 sm:space-y-6 p-3 sm:p-6 bg-scheduler-gray rounded-lg animate-fade-in" dir="rtl">
+      <div className="grid grid-cols-1 gap-4">
         <TodayOverview todaySchedule={todaySchedule} />
         <NotificationsCard days={days} />
       </div>
 
       <PendingAppointments days={days} />
       
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-        <h2 className="text-2xl font-bold text-scheduler-text">סקירת לוח זמנים</h2>
+      <div className="flex flex-col gap-3 sm:gap-4">
+        <h2 className="text-xl sm:text-2xl font-bold text-scheduler-text">סקירת לוח זמנים</h2>
         <div className="flex flex-wrap items-center gap-2">
-          <Badge variant="outline" className="bg-blue-50 flex items-center gap-1 px-3 py-1">
+          <Badge variant="outline" className="bg-blue-50 flex items-center gap-1 px-2 sm:px-3 py-1 text-sm">
             <span>{days.length} ימים</span>
           </Badge>
-          <Badge variant="outline" className="bg-green-50 flex items-center gap-1 px-3 py-1">
+          <Badge variant="outline" className="bg-green-50 flex items-center gap-1 px-2 sm:px-3 py-1 text-sm">
             <span>{days.reduce((total, day) => total + day.appointments.length, 0)} פגישות</span>
           </Badge>
           <Drawer open={open} onOpenChange={setOpen}>
@@ -51,9 +51,9 @@ const CalendarOverview = ({ days }: CalendarOverviewProps) => {
               <Button 
                 variant="outline"
                 size="sm"
-                className="flex items-center gap-2 text-blue-500 border-blue-500 hover:bg-blue-50 font-normal px-6 py-1.5 h-8 rounded-full"
+                className="flex items-center gap-2 text-blue-500 border-blue-500 hover:bg-blue-50 font-normal px-4 sm:px-6 py-1 h-7 sm:h-8 rounded-full text-sm"
               >
-                <Plus className="h-4 w-4" />
+                <Plus className="h-3 w-3 sm:h-4 sm:w-4" />
                 <span>הוסף פגישה</span>
               </Button>
             </DrawerTrigger>
