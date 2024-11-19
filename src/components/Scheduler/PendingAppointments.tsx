@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { DaySchedule, Appointment } from '@/lib/types';
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Clock, Calendar, X } from "lucide-react";
+import { Clock, Calendar, X, CheckCircle2 } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -54,6 +54,23 @@ const PendingAppointments = ({ days, onUpdateAppointment }: PendingAppointmentsP
     setSelectedAppointment(null);
   };
 
+  const handleApproveAll = () => {
+    pendingAppointments.forEach(appointment => {
+      if (onUpdateAppointment) {
+        const approvedAppointment = {
+          ...appointment,
+          status: 'approved' as const
+        };
+        onUpdateAppointment(appointment.date, approvedAppointment);
+      }
+    });
+    
+    toast({
+      title: "פגישות אושרו",
+      description: `${pendingAppointments.length} פגישות אושרו בהצלחה`,
+    });
+  };
+
   if (pendingAppointments.length === 0) {
     return null;
   }
@@ -72,6 +89,15 @@ const PendingAppointments = ({ days, onUpdateAppointment }: PendingAppointmentsP
                 {pendingAppointments.length}
               </Badge>
             </div>
+            <Button
+              variant="outline"
+              size="sm"
+              className="text-blue-500 border-blue-500 hover:bg-blue-50 font-medium px-4 py-1 h-8 rounded-md flex items-center gap-2"
+              onClick={handleApproveAll}
+            >
+              <CheckCircle2 className="h-4 w-4" />
+              אישור כל הממתינות
+            </Button>
           </CardTitle>
         </CardHeader>
         <CardContent className="p-8">
