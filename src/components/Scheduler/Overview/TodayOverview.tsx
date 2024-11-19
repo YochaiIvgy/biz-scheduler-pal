@@ -1,6 +1,6 @@
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Calendar, Clock, Users, DollarSign, CheckCircle2, Plus, Calendar as CalendarIcon } from "lucide-react";
+import { Calendar, Clock, Users, DollarSign, CheckCircle2, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { DaySchedule } from '@/lib/types';
@@ -14,9 +14,15 @@ interface TodayOverviewProps {
 const TodayOverview = ({ todaySchedule }: TodayOverviewProps) => {
   const totalAppointments = todaySchedule.appointments.length;
   const pendingAppointments = todaySchedule.appointments.filter(apt => apt.status === 'pending').length;
+  const approvedAppointments = todaySchedule.appointments.filter(apt => apt.status === 'approved').length;
   
   // Calculate estimated revenue (mock calculation - 200₪ per appointment)
   const estimatedRevenue = totalAppointments * 200;
+  
+  // Calculate progress percentage
+  const progressPercentage = totalAppointments > 0 
+    ? (approvedAppointments / totalAppointments) * 100 
+    : 0;
   
   // Find next appointment
   const nextAppointment = todaySchedule.appointments
@@ -49,13 +55,36 @@ const TodayOverview = ({ todaySchedule }: TodayOverviewProps) => {
   return (
     <Card className="border-0 shadow-sm">
       <CardHeader className="border-b border-gray-100/50 bg-gradient-to-r from-blue-50 to-purple-50">
-        <CardTitle className="text-lg font-medium text-gray-700 flex items-center gap-2">
-          <Calendar className="h-5 w-5 text-blue-600" />
-          סקירת פגישות להיום
+        <CardTitle className="text-lg font-medium text-gray-700 flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <Calendar className="h-5 w-5 text-blue-600" />
+            סקירת פגישות להיום
+          </div>
+          <span className="text-sm font-normal text-gray-500">
+            {todaySchedule.date.toLocaleDateString('he-IL', {
+              weekday: 'long',
+              year: 'numeric',
+              month: 'long',
+              day: 'numeric'
+            })}
+          </span>
         </CardTitle>
       </CardHeader>
       
       <CardContent className="p-4 space-y-6">
+        {/* Progress Section */}
+        <div className="space-y-2">
+          <div className="flex justify-between text-sm">
+            <span className="text-gray-500">התקדמות היום</span>
+            <span className="text-gray-700 font-medium">{progressPercentage.toFixed(0)}%</span>
+          </div>
+          <Progress value={progressPercentage} className="h-2" />
+          <div className="flex justify-between text-xs text-gray-500">
+            <span>{approvedAppointments} מאושרות</span>
+            <span>{pendingAppointments} ממתינות</span>
+          </div>
+        </div>
+
         {/* Metrics Section */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div className="bg-blue-50 rounded-lg p-4">
@@ -101,7 +130,7 @@ const TodayOverview = ({ todaySchedule }: TodayOverviewProps) => {
                   ))}
                 </div>
               </div>
-              <CalendarIcon className="h-12 w-12 text-purple-400" />
+              <Calendar className="h-12 w-12 text-purple-400" />
             </div>
           </div>
         )}
