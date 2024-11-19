@@ -1,92 +1,146 @@
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Calendar, Clock, Users } from "lucide-react";
-import { DaySchedule } from '@/lib/types';
-import StatusCard from './StatusCard';
-import AppointmentTimeline from './AppointmentTimeline';
+import { Calendar, Clock, Users, DollarSign, CheckCircle2, Plus, Calendar as CalendarIcon } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
+import { DaySchedule } from '@/lib/types';
+import { toast } from "@/components/ui/use-toast";
+import AppointmentTimeline from './AppointmentTimeline';
 
 interface TodayOverviewProps {
   todaySchedule: DaySchedule;
 }
 
 const TodayOverview = ({ todaySchedule }: TodayOverviewProps) => {
-  const confirmedCount = todaySchedule.appointments.filter(apt => apt.status === 'approved').length;
-  const pendingCount = todaySchedule.appointments.filter(apt => apt.status === 'pending').length;
-  const canceledCount = todaySchedule.appointments.filter(apt => apt.status === 'rejected').length;
   const totalAppointments = todaySchedule.appointments.length;
-  const maxAppointments = 8; // Assuming 8 hours workday
-  const progress = (totalAppointments / maxAppointments) * 100;
+  const pendingAppointments = todaySchedule.appointments.filter(apt => apt.status === 'pending').length;
+  
+  // Calculate estimated revenue (mock calculation - 200₪ per appointment)
+  const estimatedRevenue = totalAppointments * 200;
+  
+  // Find next appointment
+  const nextAppointment = todaySchedule.appointments
+    .filter(apt => {
+      const [hours, minutes] = apt.time.split(':');
+      const appointmentTime = new Date();
+      appointmentTime.setHours(parseInt(hours), parseInt(minutes), 0);
+      return appointmentTime > new Date();
+    })
+    .sort((a, b) => {
+      const timeA = a.time.split(':').map(Number);
+      const timeB = b.time.split(':').map(Number);
+      return (timeA[0] * 60 + timeA[1]) - (timeB[0] * 60 + timeB[1]);
+    })[0];
+
+  const handleApproveAll = () => {
+    toast({
+      title: "פעולה בוצעה",
+      description: "כל הפגישות הממתינות אושרו",
+    });
+  };
+
+  const handleFillSlots = () => {
+    toast({
+      title: "ממלא משבצות פנויות",
+      description: "מחפש משבצות זמן פנויות...",
+    });
+  };
 
   return (
-    <Card className="border-0 shadow-sm bg-white/80">
-      <CardHeader className="border-b border-gray-100/50 bg-gradient-to-r from-blue-50 to-purple-50 p-4 sm:p-6">
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-          <CardTitle className="text-lg sm:text-xl font-medium text-gray-700 flex items-center gap-2">
-            <Calendar className="h-5 w-5 text-blue-600" />
-            סקירת פגישות להיום
-          </CardTitle>
-          <div className="flex items-center gap-2 text-sm text-gray-600">
-            <Clock className="h-4 w-4" />
-            <span>{new Date().toLocaleDateString('he-IL', { weekday: 'long', month: 'long', day: 'numeric' })}</span>
-          </div>
-        </div>
+    <Card className="border-0 shadow-sm">
+      <CardHeader className="border-b border-gray-100/50 bg-gradient-to-r from-blue-50 to-purple-50">
+        <CardTitle className="text-lg font-medium text-gray-700 flex items-center gap-2">
+          <Calendar className="h-5 w-5 text-blue-600" />
+          סקירת פגישות להיום
+        </CardTitle>
       </CardHeader>
-
-      <CardContent className="p-4 sm:p-6 space-y-6">
-        {/* Progress Section */}
-        <div className="bg-gray-50 rounded-lg p-4 space-y-3">
-          <div className="flex justify-between items-center mb-2">
-            <h3 className="text-sm font-medium text-gray-700">התקדמות יומית</h3>
-            <span className="text-sm text-gray-600">{progress.toFixed(0)}%</span>
-          </div>
-          <Progress value={progress} className="h-2" />
-          <div className="flex items-center justify-between text-sm text-gray-600">
-            <span>{totalAppointments} פגישות</span>
-            <span>{maxAppointments - totalAppointments} שעות פנויות</span>
-          </div>
-        </div>
-
-        {/* Status Cards - New Layout */}
-        <div className="grid grid-cols-3 gap-2 sm:gap-4">
-          <div className="col-span-3 sm:col-span-1">
-            <div className="bg-green-50 rounded-lg p-3 sm:p-4 border border-green-100">
-              <div className="flex items-center justify-between">
-                <span className="text-green-700 text-sm font-medium">מאושרות</span>
-                <span className="text-2xl font-bold text-green-700">{confirmedCount}</span>
+      
+      <CardContent className="p-4 space-y-6">
+        {/* Metrics Section */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className="bg-blue-50 rounded-lg p-4">
+            <div className="flex items-center justify-between">
+              <div className="space-y-1">
+                <p className="text-sm text-gray-500">סה״כ פגישות</p>
+                <p className="text-2xl font-bold text-blue-700">{totalAppointments}</p>
               </div>
+              <Users className="h-8 w-8 text-blue-500" />
             </div>
           </div>
-          <div className="col-span-3 sm:col-span-1">
-            <div className="bg-yellow-50 rounded-lg p-3 sm:p-4 border border-yellow-100">
-              <div className="flex items-center justify-between">
-                <span className="text-yellow-700 text-sm font-medium">ממתינות</span>
-                <span className="text-2xl font-bold text-yellow-700">{pendingCount}</span>
+          
+          <div className="bg-green-50 rounded-lg p-4">
+            <div className="flex items-center justify-between">
+              <div className="space-y-1">
+                <p className="text-sm text-gray-500">הכנסות צפויות</p>
+                <p className="text-2xl font-bold text-green-700">₪{estimatedRevenue}</p>
               </div>
-            </div>
-          </div>
-          <div className="col-span-3 sm:col-span-1">
-            <div className="bg-red-50 rounded-lg p-3 sm:p-4 border border-red-100">
-              <div className="flex items-center justify-between">
-                <span className="text-red-700 text-sm font-medium">בוטלו</span>
-                <span className="text-2xl font-bold text-red-700">{canceledCount}</span>
-              </div>
+              <DollarSign className="h-8 w-8 text-green-500" />
             </div>
           </div>
         </div>
 
-        {/* Timeline Section */}
-        <div className="bg-white rounded-lg border border-gray-100 p-4">
-          <div className="flex items-center justify-between mb-4">
-            <h3 className="text-base font-medium text-gray-700 flex items-center gap-2">
-              <Users className="h-4 w-4 text-blue-600" />
-              פגישות היום
-            </h3>
-            <span className="text-sm text-gray-500">
-              {todaySchedule.appointments.length} פגישות
-            </span>
+        {/* Next Appointment Section */}
+        {nextAppointment && (
+          <div className="bg-purple-50 rounded-lg p-4">
+            <h3 className="text-sm font-medium text-gray-700 mb-3">הפגישה הבאה</h3>
+            <div className="flex items-center justify-between">
+              <div className="space-y-2">
+                <p className="font-semibold text-purple-900">{nextAppointment.clientName}</p>
+                <div className="flex items-center gap-2 text-sm text-purple-700">
+                  <Clock className="h-4 w-4" />
+                  <span>{nextAppointment.time}</span>
+                </div>
+                <div className="flex flex-wrap gap-2">
+                  {nextAppointment.services.map((service, index) => (
+                    <span 
+                      key={index}
+                      className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-purple-100 text-purple-800"
+                    >
+                      {service}
+                    </span>
+                  ))}
+                </div>
+              </div>
+              <CalendarIcon className="h-12 w-12 text-purple-400" />
+            </div>
           </div>
-          <div className="max-h-[calc(100vh-32rem)] overflow-y-auto scrollbar-thin scrollbar-thumb-gray-200 scrollbar-track-transparent pr-2">
+        )}
+
+        {/* Quick Actions */}
+        <div className="flex flex-wrap gap-2">
+          {pendingAppointments > 0 && (
+            <Button 
+              variant="outline"
+              onClick={handleApproveAll}
+              className="flex items-center gap-2 bg-green-50 hover:bg-green-100 text-green-700 border-green-200"
+            >
+              <CheckCircle2 className="h-4 w-4" />
+              אישור כל הממתינות ({pendingAppointments})
+            </Button>
+          )}
+          
+          <Button 
+            variant="outline"
+            className="flex items-center gap-2 bg-blue-50 hover:bg-blue-100 text-blue-700 border-blue-200"
+          >
+            <Plus className="h-4 w-4" />
+            הוסף פגישה
+          </Button>
+          
+          <Button 
+            variant="outline"
+            onClick={handleFillSlots}
+            className="flex items-center gap-2 bg-purple-50 hover:bg-purple-100 text-purple-700 border-purple-200"
+          >
+            <Calendar className="h-4 w-4" />
+            מלא משבצות פנויות
+          </Button>
+        </div>
+
+        {/* Appointments Timeline */}
+        <div className="mt-6">
+          <h3 className="text-sm font-medium text-gray-700 mb-3">לוח זמנים</h3>
+          <div className="max-h-[300px] overflow-y-auto pr-2">
             <AppointmentTimeline appointments={todaySchedule.appointments} />
           </div>
         </div>
