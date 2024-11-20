@@ -2,7 +2,7 @@ import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
-import { Settings2, Bell, Clock, Calendar, Shield, CheckCircle2, Ban } from "lucide-react";
+import { Settings2, Bell, Clock, Calendar } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
 
 const QuickSettingsCard = () => {
@@ -26,56 +26,34 @@ const QuickSettingsCard = () => {
       <CardContent className="p-4 space-y-4">
         <div className="flex items-center justify-between space-x-4">
           <div className="flex items-center gap-2">
-            <Clock className="h-4 w-4 text-gray-500" />
-            <Label htmlFor="operating-hours">שעות פעילות אוטומטיות</Label>
-          </div>
-          <Switch
-            id="operating-hours"
-            onCheckedChange={() => handleSettingChange('שעות פעילות אוטומטיות')}
-          />
-        </div>
-
-        <div className="flex items-center justify-between space-x-4">
-          <div className="flex items-center gap-2">
             <Bell className="h-4 w-4 text-gray-500" />
-            <Label htmlFor="notifications">העדפות התראות</Label>
+            <Label htmlFor="notifications">התראות אוטומטיות</Label>
           </div>
           <Switch
             id="notifications"
-            onCheckedChange={() => handleSettingChange('העדפות התראות')}
+            onCheckedChange={() => handleSettingChange('התראות אוטומטיות')}
           />
         </div>
 
         <div className="flex items-center justify-between space-x-4">
           <div className="flex items-center gap-2">
-            <CheckCircle2 className="h-4 w-4 text-gray-500" />
-            <Label htmlFor="auto-approval">אישור אוטומטי</Label>
+            <Clock className="h-4 w-4 text-gray-500" />
+            <Label htmlFor="breaks">הפסקות אוטומטיות</Label>
           </div>
           <Switch
-            id="auto-approval"
-            onCheckedChange={() => handleSettingChange('אישור אוטומטי')}
+            id="breaks"
+            onCheckedChange={() => handleSettingChange('הפסקות אוטומטיות')}
           />
         </div>
 
         <div className="flex items-center justify-between space-x-4">
           <div className="flex items-center gap-2">
             <Calendar className="h-4 w-4 text-gray-500" />
-            <Label htmlFor="service-toggle">הפעלת/השבתת שירותים</Label>
+            <Label htmlFor="calendar-sync">סנכרון יומן</Label>
           </div>
           <Switch
-            id="service-toggle"
-            onCheckedChange={() => handleSettingChange('הפעלת/השבתת שירותים')}
-          />
-        </div>
-
-        <div className="flex items-center justify-between space-x-4">
-          <div className="flex items-center gap-2">
-            <Shield className="h-4 w-4 text-gray-500" />
-            <Label htmlFor="cancellation">מדיניות ביטולים</Label>
-          </div>
-          <Switch
-            id="cancellation"
-            onCheckedChange={() => handleSettingChange('מדיניות ביטולים')}
+            id="calendar-sync"
+            onCheckedChange={() => handleSettingChange('סנכרון יומן')}
           />
         </div>
       </CardContent>
