@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import { Badge } from "@/components/ui/badge";
-import { ChevronLeft, ChevronRight, CalendarIcon } from "lucide-react";
+import { ChevronLeft, ChevronRight, CalendarIcon, RefreshCw } from "lucide-react";
 import { DaySchedule } from "@/lib/types";
 import AppointmentList from "./AppointmentList";
 import DaysList from "./DaysList";
@@ -137,6 +137,15 @@ const DailyView = ({
               className="flex-none"
             >
               <ChevronLeft className="h-4 w-4" />
+            </Button>
+            <Button
+              variant="outline"
+              size="icon"
+              onClick={() => window.location.reload()}
+              className="flex-none"
+              title="רענן פגישות"
+            >
+              <RefreshCw className="h-4 w-4" />
             </Button>
           </div>
           <AppointmentList
