@@ -76,6 +76,17 @@ const DailyView = ({
 
         {showCalendar && (
           <div className="bg-white rounded-lg shadow-lg p-4 animate-in slide-in-from-top-2 duration-300">
+            <div className="flex justify-end mb-2">
+              <Button
+                variant="outline"
+                size="icon"
+                onClick={() => window.location.reload()}
+                className="flex-none"
+                title="רענן פגישות"
+              >
+                <RefreshCw className="h-4 w-4" />
+              </Button>
+            </div>
             <Calendar
               mode="single"
               selected={selectedDate}
@@ -137,15 +148,6 @@ const DailyView = ({
               className="flex-none"
             >
               <ChevronLeft className="h-4 w-4" />
-            </Button>
-            <Button
-              variant="outline"
-              size="icon"
-              onClick={() => window.location.reload()}
-              className="flex-none"
-              title="רענן פגישות"
-            >
-              <RefreshCw className="h-4 w-4" />
             </Button>
           </div>
           <AppointmentList
