@@ -35,6 +35,14 @@ const StatusCard = ({ status, count }: StatusCardProps) => {
           textColor: 'text-red-600',
           badgeClass: 'bg-red-100 text-red-700'
         };
+      default:
+        return {
+          icon: AlertCircle,
+          label: 'לא ידוע',
+          bgColor: 'bg-gray-50',
+          textColor: 'text-gray-600',
+          badgeClass: 'bg-gray-100 text-gray-700'
+        };
     }
   };
 
