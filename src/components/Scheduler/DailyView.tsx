@@ -14,6 +14,9 @@ import {
   DrawerTrigger,
 } from "@/components/ui/drawer";
 import { useToast } from "@/components/ui/use-toast";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { useState } from "react";
 
 interface DailyViewProps {
   selectedDate: Date;
@@ -35,6 +38,8 @@ const DailyView = ({
   getAppointmentsCount
 }: DailyViewProps) => {
   const { toast } = useToast();
+  const [breakStartTime, setBreakStartTime] = useState('');
+  const [breakEndTime, setBreakEndTime] = useState('');
   
   const handlePreviousDay = () => {
     const newDate = new Date(selectedDate);
@@ -49,11 +54,57 @@ const DailyView = ({
   };
 
   const handleAddBreak = () => {
+    if (!breakStartTime || !breakEndTime) {
+      toast({
+        title: "שגיאה",
+        description: "נא למלא את כל השדות",
+        variant: "destructive",
+      });
+      return;
+    }
+
     toast({
       title: "הפסקה נוספה",
-      description: "ההפסקה נוספה בהצלחה ללוח הזמנים",
+      description: `הפסקה נוספה בהצלחה: ${breakStartTime} - ${breakEndTime}`,
     });
+
+    // Reset the form
+    setBreakStartTime('');
+    setBreakEndTime('');
   };
+
+  const DrawerContent = () => (
+    <>
+      <DrawerHeader>
+        <DrawerTitle>הוספת הפסקה</DrawerTitle>
+      </DrawerHeader>
+      <div className="p-4 space-y-4">
+        <div className="grid grid-cols-2 gap-4">
+          <div className="space-y-2">
+            <Label htmlFor="startTime">שעת התחלה</Label>
+            <Input
+              id="startTime"
+              type="time"
+              value={breakStartTime}
+              onChange={(e) => setBreakStartTime(e.target.value)}
+            />
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="endTime">שעת סיום</Label>
+            <Input
+              id="endTime"
+              type="time"
+              value={breakEndTime}
+              onChange={(e) => setBreakEndTime(e.target.value)}
+            />
+          </div>
+        </div>
+        <Button onClick={handleAddBreak} className="w-full">
+          הוסף הפסקה
+        </Button>
+      </div>
+    </>
+  );
 
   return (
     <>
@@ -117,14 +168,7 @@ const DailyView = ({
                   </Button>
                 </DrawerTrigger>
                 <DrawerContent>
-                  <DrawerHeader>
-                    <DrawerTitle>הוספת הפסקה</DrawerTitle>
-                  </DrawerHeader>
-                  <div className="p-4">
-                    <Button onClick={handleAddBreak} className="w-full">
-                      הוסף הפסקה
-                    </Button>
-                  </div>
+                  <DrawerContent />
                 </DrawerContent>
               </Drawer>
             </div>
@@ -203,14 +247,7 @@ const DailyView = ({
                 </Button>
               </DrawerTrigger>
               <DrawerContent>
-                <DrawerHeader>
-                  <DrawerTitle>הוספת הפסקה</DrawerTitle>
-                </DrawerHeader>
-                <div className="p-4">
-                  <Button onClick={handleAddBreak} className="w-full">
-                    הוסף הפסקה
-                  </Button>
-                </div>
+                <DrawerContent />
               </DrawerContent>
             </Drawer>
           </div>
