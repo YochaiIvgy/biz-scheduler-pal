@@ -1,10 +1,19 @@
+
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import { Badge } from "@/components/ui/badge";
-import { ChevronLeft, ChevronRight, CalendarIcon, RefreshCw } from "lucide-react";
+import { ChevronLeft, ChevronRight, CalendarIcon, RefreshCw, Coffee } from "lucide-react";
 import { DaySchedule } from "@/lib/types";
 import AppointmentList from "./AppointmentList";
 import DaysList from "./DaysList";
+import {
+  Drawer,
+  DrawerContent,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from "@/components/ui/drawer";
+import { useToast } from "@/components/ui/use-toast";
 
 interface DailyViewProps {
   selectedDate: Date;
@@ -25,6 +34,8 @@ const DailyView = ({
   sampleDays,
   getAppointmentsCount
 }: DailyViewProps) => {
+  const { toast } = useToast();
+  
   const handlePreviousDay = () => {
     const newDate = new Date(selectedDate);
     newDate.setDate(newDate.getDate() - 1);
@@ -35,6 +46,13 @@ const DailyView = ({
     const newDate = new Date(selectedDate);
     newDate.setDate(newDate.getDate() + 1);
     setSelectedDate(newDate);
+  };
+
+  const handleAddBreak = () => {
+    toast({
+      title: "הפסקה נוספה",
+      description: "ההפסקה נוספה בהצלחה ללוח הזמנים",
+    });
   };
 
   return (
@@ -76,7 +94,7 @@ const DailyView = ({
 
         {showCalendar && (
           <div className="bg-white rounded-lg shadow-lg p-4 animate-in slide-in-from-top-2 duration-300">
-            <div className="flex justify-end mb-2">
+            <div className="flex justify-end gap-2 mb-2">
               <Button
                 variant="outline"
                 size="icon"
@@ -86,6 +104,29 @@ const DailyView = ({
               >
                 <RefreshCw className="h-4 w-4" />
               </Button>
+              
+              <Drawer>
+                <DrawerTrigger asChild>
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    className="flex-none"
+                    title="הוסף הפסקה"
+                  >
+                    <Coffee className="h-4 w-4" />
+                  </Button>
+                </DrawerTrigger>
+                <DrawerContent>
+                  <DrawerHeader>
+                    <DrawerTitle>הוספת הפסקה</DrawerTitle>
+                  </DrawerHeader>
+                  <div className="p-4">
+                    <Button onClick={handleAddBreak} className="w-full">
+                      הוסף הפסקה
+                    </Button>
+                  </div>
+                </DrawerContent>
+              </Drawer>
             </div>
             <Calendar
               mode="single"
@@ -149,6 +190,29 @@ const DailyView = ({
             >
               <ChevronLeft className="h-4 w-4" />
             </Button>
+            
+            <Drawer>
+              <DrawerTrigger asChild>
+                <Button
+                  variant="outline"
+                  size="icon"
+                  className="flex-none"
+                  title="הוסף הפסקה"
+                >
+                  <Coffee className="h-4 w-4" />
+                </Button>
+              </DrawerTrigger>
+              <DrawerContent>
+                <DrawerHeader>
+                  <DrawerTitle>הוספת הפסקה</DrawerTitle>
+                </DrawerHeader>
+                <div className="p-4">
+                  <Button onClick={handleAddBreak} className="w-full">
+                    הוסף הפסקה
+                  </Button>
+                </div>
+              </DrawerContent>
+            </Drawer>
           </div>
           <AppointmentList
             appointments={selectedDaySchedule.appointments}
