@@ -73,7 +73,7 @@ const DailyView = ({
     setBreakEndTime('');
   };
 
-  const DrawerContent = () => (
+  const BreakFormContent = () => (
     <>
       <DrawerHeader>
         <DrawerTitle>הוספת הפסקה</DrawerTitle>
@@ -168,7 +168,7 @@ const DailyView = ({
                   </Button>
                 </DrawerTrigger>
                 <DrawerContent>
-                  <DrawerContent />
+                  <BreakFormContent />
                 </DrawerContent>
               </Drawer>
             </div>
@@ -247,7 +247,7 @@ const DailyView = ({
                 </Button>
               </DrawerTrigger>
               <DrawerContent>
-                <DrawerContent />
+                <BreakFormContent />
               </DrawerContent>
             </Drawer>
           </div>
@@ -262,3 +262,4 @@ const DailyView = ({
 };
 
 export default DailyView;
+
